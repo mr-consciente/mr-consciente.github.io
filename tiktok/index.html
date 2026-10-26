@@ -20,6 +20,7 @@
   <img src="../logo.png" alt="Logo de Mr. Consciente">
   <h1 id="titulo">Autorización de TikTok</h1>
   <p id="mensaje" class="suave">Esta página recibe la autorización de TikTok para que la herramienta de Mr. Consciente lea las estadísticas de nuestros propios videos.</p>
+  <p id="conectar"><a href="https://www.tiktok.com/v2/auth/authorize/?client_key=sbawl1ncq8zvu4bno4&scope=user.info.basic%2Cuser.info.stats%2Cvideo.list&response_type=code&redirect_uri=https%3A%2F%2Fmr-consciente.github.io%2Ftiktok%2F&state=mrconsciente"><button>Conectar con TikTok</button></a></p>
   <code id="codigo" hidden></code>
   <button id="copiar" hidden>Copiar código</button>
   <p><a href="../privacidad.html" style="color: var(--turquesa)">Política de privacidad</a> · <a href="../terminos.html" style="color: var(--turquesa)">Términos</a></p>
@@ -28,9 +29,10 @@
   const p = new URLSearchParams(location.search);
   const codigo = p.get("code"), error = p.get("error");
   const caja = document.getElementById("codigo"), boton = document.getElementById("copiar");
+  if (codigo || error) document.getElementById("conectar").hidden = true;
   if (codigo) {
     document.getElementById("titulo").textContent = "¡Autorizado!";
-    document.getElementById("mensaje").textContent = "Copia este código y pégaselo a Claude en la conversación. Vence en pocos minutos.";
+    document.getElementById("mensaje").textContent = "Copia este código y envíaselo al bot de Telegram de Mr. Consciente así: TIKTOK seguido del código. Vence en pocos minutos.";
     caja.textContent = codigo;
     caja.hidden = boton.hidden = false;
     boton.onclick = () => navigator.clipboard.writeText(codigo).then(() => boton.textContent = "¡Copiado!");
