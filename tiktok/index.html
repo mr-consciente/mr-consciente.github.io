@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autorización de TikTok | Mr. Consciente</title>
+<link rel="icon" href="../logo.png">
+<style>
+  :root { --negro: #0b0f0c; --turquesa: #16b88a; --texto: #f5f8f6; --suave: #b9c4bf; }
+  body { margin: 0; background: var(--negro); color: var(--texto); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 620px; margin: 0 auto; padding: 56px 24px; text-align: center; }
+  img { width: 96px; height: 96px; }
+  code { display: block; word-break: break-all; background: #141a16; border: 1px solid #2a3530; border-radius: 12px; padding: 16px; margin: 18px 0; font-size: 15px; color: var(--turquesa); text-align: left; }
+  button { background: var(--turquesa); color: var(--negro); border: 0; border-radius: 999px; padding: 12px 24px; font-weight: 700; font-size: 16px; cursor: pointer; }
+  .suave { color: var(--suave); }
+</style>
+</head>
+<body>
+<main>
+  <img src="../logo.png" alt="Logo de Mr. Consciente">
+  <h1 id="titulo">Autorización de TikTok</h1>
+  <p id="mensaje" class="suave">Esta página recibe la autorización de TikTok para que la herramienta de Mr. Consciente lea las estadísticas de nuestros propios videos.</p>
+  <code id="codigo" hidden></code>
+  <button id="copiar" hidden>Copiar código</button>
+  <p><a href="../privacidad.html" style="color: var(--turquesa)">Política de privacidad</a> · <a href="../terminos.html" style="color: var(--turquesa)">Términos</a></p>
+</main>
+<script>
+  const p = new URLSearchParams(location.search);
+  const codigo = p.get("code"), error = p.get("error");
+  const caja = document.getElementById("codigo"), boton = document.getElementById("copiar");
+  if (codigo) {
+    document.getElementById("titulo").textContent = "¡Autorizado!";
+    document.getElementById("mensaje").textContent = "Copia este código y pégaselo a Claude en la conversación. Vence en pocos minutos.";
+    caja.textContent = codigo;
+    caja.hidden = boton.hidden = false;
+    boton.onclick = () => navigator.clipboard.writeText(codigo).then(() => boton.textContent = "¡Copiado!");
+  } else if (error) {
+    document.getElementById("titulo").textContent = "No se autorizó";
+    document.getElementById("mensaje").textContent = "TikTok respondió: " + error + " " + (p.get("error_description") || "");
+  }
+</script>
+</body>
+</html>
